@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat History</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-image: url('https://www.transparenttextures.com/patterns/soft-wallpaper.png');
+            background-color: #e0f7fa; /* Light blue background */
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .container {
+            background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent white */
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 800px;
+            text-align: center;
+            animation: slideIn 1s ease-in-out;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        h1 {
+            color: #00796b; /* Dark teal */
+            margin-bottom: 1.5rem;
+            font-size: 2.5rem;
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        /* History Page Styles */
+        .history {
+            margin-top: 1rem;
+        }
+
+        .session {
+            background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent white */
+            border: 1px solid #ddd;
+            border-radius: 15px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .session h2 {
+            color: #00796b; /* Dark teal */
+            margin-bottom: 0.5rem;
+        }
+
+        .session ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .session li {
+            padding: 0.5rem;
+            border-radius: 10px;
+            margin-bottom: 0.5rem;
+            background-color: #e0f7fa; /* Light blue */
+            color: #333;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        /* Button Styles */
+        .button {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            margin: 0.5rem;
+            background-color: #00796b; /* Dark teal */
+            color: #fff;
+            text-decoration: none;
+            border-radius: 25px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            animation: fadeIn 2.5s ease-in-out;
+        }
+
+        .button:hover {
+            background-color: #004d40; /* Darker teal */
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Chat History</h1>
+        <a href="{{ url_for('chat') }}" class="button">Go to Chat</a>
+        <div class="history">
+            {% for session in history %}
+                <div class="session">
+                    <h2>Session ID: {{ session.session_id }}</h2>
+                    <p>Started at: {{ session.started_at }}</p>
+                    <ul>
+                        {% for message in session.messages %}
+                            <li class="message {% if message.sender == 'user' %}user-message{% else %}bot-message{% endif %}">
+                                <strong>{{ message.sender }}:</strong> {{ message.content }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>
